@@ -1,0 +1,149 @@
+First create database:
+-->create database onlinegaming;
+Then:
+-->use onlinegaming;
+To check whether the database tables are created or not use:
+-->show tables;
+
+NOTE:only after creation of tables the database should shows up
+
+ONLINE VIDEO GAMING: 
+ 1.CREATE TABLE Account ( 
+         AcctName VARCHAR(50) PRIMARY KEY, 
+         Password VARCHAR(100), 
+         LastSignedOn DATE, 
+        SbscrbrName VARCHAR(100), 
+         SbscrbrAddress VARCHAR(255), 
+         SbscrbrEmail VARCHAR(100), 
+         SbscrbrPhone VARCHAR(15), 
+         AcctCreatedOn DATE 
+     ); 
+
+Insertion: 
+INSERT INTO Account VALUES  
+('john_doe', 'pass123', '2024-09-01', 'John Doe', '123 Maple St', 'john.doe@mail.com', 
+'1234567890', '2020-01-10'), 
+('jane_smith', 'pass456', '2024-08-29', 'Jane Smith', '456 Oak Ave', 'jane.smith@mail.com', 
+'0987654321', '2019-07-18'), 
+('charles_lee', 'pass789', '2024-07-12', 'Charles Lee', '789 Pine Ln', 'charles.lee@mail.com', 
+'2345678901', '2021-03-25'), 
+('lucy_gray', 'pass101', '2024-09-10', 'Lucy Gray', '101 Birch Blvd', 'lucy.gray@mail.com', 
+'3456789012', '2022-04-15'), 
+('mark_taylor', 'pass102', '2024-08-15', 'Mark Taylor', '202 Cedar Dr', 'mark.taylor@mail.com', 
+'4567890123', '2023-02-20'), 
+('emily_clark', 'pass103', '2024-09-05', 'Emily Clark', '303 Elm St', 'emily.clark@mail.com', 
+'5678901234', '2023-06-30'); 
+
+2. Region 
+CREATE TABLE Region ( 
+    RegionName VARCHAR(50) PRIMARY KEY, 
+    Climate VARCHAR(50), 
+    Precipitation VARCHAR(50), 
+    Foliage VARCHAR(50) 
+); 
+
+Insertions: 
+INSERT INTO Region VALUES  
+('Enchanted Forest', 'Temperate', 'High', 'Dense'), 
+('Desert Wastes', 'Arid', 'Low', 'Sparse'), 
+('Mountain Peaks', 'Cold', 'Snow', 'Sparse'), 
+('Sunny Meadows', 'Warm', 'Moderate', 'Moderate'), 
+('Volcanic Fields', 'Hot', 'None', 'None'), 
+('Swamp Lands', 'Humid', 'Very High', 'Thick'); 
+
+3. Item 
+CREATE TABLE Item ( 
+ItemName VARCHAR(50) PRIMARY KEY, 
+ItemType VARCHAR(50), 
+ItemDamage INT 
+); 
+
+Insertions: 
+INSERT INTO Item VALUES  
+('Sword of Destiny', 'Weapon', 50), 
+('Healing Potion', 'Consumable', 0), 
+('Shield of Valor', 'Armor', 0), 
+('Fire Staff', 'Weapon', 40), 
+('Magic Ring', 'Accessory', 10), 
+('Bow of Eternity', 'Weapon', 30); 
+
+4. Creep 
+CREATE TABLE Creep ( 
+CreepName VARCHAR(50) PRIMARY KEY, 
+HitPoints INT, 
+Mana INT, 
+Attack INT 
+); 
+
+Insertions: 
+INSERT INTO Creep VALUES  
+('Goblin', 100, 30, 15), 
+('Dragon', 1000, 200, 100), 
+('Orc', 300, 50, 25), 
+('Troll', 500, 20, 30), 
+('Skeleton', 80, 0, 10), 
+('Vampire', 200, 60, 35); 
+ 
+5. Character 
+CREATE TABLE PlayerCharacter ( 
+    CharName VARCHAR(50) PRIMARY KEY, 
+    Level INT, 
+    ExpPoints INT, 
+    Type VARCHAR(50), 
+    MaxHitPoints INT, 
+    MaxMana INT, 
+    CurrHitPoints INT, 
+    CurrMana INT, 
+    LastPlayed DATE, 
+    CreatedOn DATE, 
+    AcctName VARCHAR(50), 
+    FOREIGN KEY (AcctName) REFERENCES Account(AcctName) 
+); 
+
+Insertions: 
+INSERT INTO Character VALUES  
+('Knight_Arthur', 15, 20000, 'Warrior', 150, 50, 120, 30, '2024-09-10', '2022-05-20', 'john_doe'), 
+('Mage_Lucius', 10, 15000, 'Mage', 100, 200, 80, 150, '2024-08-25', '2021-02-15', 'jane_smith'), 
+('Rogue_Sharp', 12, 18000, 'Rogue', 120, 60, 110, 40, '2024-09-09', '2021-09-10', 'charles_lee'), 
+('Paladin_Lance', 20, 25000, 'Paladin', 200, 100, 180, 90, '2024-08-20', '2020-08-05', 'lucy_gray'), 
+('Hunter_Elise', 8, 10000, 'Hunter', 110, 30, 90, 20, '2024-07-30', '2023-01-10', 'mark_taylor'), 
+('Sorcerer_Ana', 14, 22000, 'Sorcerer', 130, 250, 120, 200, '2024-09-08', '2022-11-25', 
+'emily_clark'); 
+
+6. ItemInstantiation 
+CREATE TABLE ItemInstantiation ( 
+IDNum INT PRIMARY KEY, 
+Modifier VARCHAR(50), 
+WhenCreated DATE, 
+CharName VARCHAR(50), 
+ItemName VARCHAR(50), 
+FOREIGN KEY (CharName) REFERENCES PlayerCharacter(CharName), 
+FOREIGN KEY (ItemName) REFERENCES Item(ItemName) 
+); 
+
+Insertions: 
+INSERT INTO ItemInstantiation VALUES  
+(1001, 'Fire Enchantment', '2024-09-05', 'Knight_Arthur', 'Sword of Destiny'), 
+(1002, 'Healing', '2024-08-12', 'Mage_Lucius', 'Healing Potion'), 
+(1003, 'Defense Buff', '2024-07-30', 'Paladin_Lance', 'Shield of Valor'), 
+(1004, 'Flame Power', '2024-09-01', 'Sorcerer_Ana', 'Fire Staff'), 
+(1005, 'Increased Speed', '2024-08-05', 'Rogue_Sharp', 'Magic Ring'), 
+(1006, 'Accuracy Boost', '2024-09-09', 'Hunter_Elise', 'Bow of Eternity'); 
+
+7. CreepInstantiation 
+CREATE TABLE CreepInstantiation ( 
+IDNum INT PRIMARY KEY, 
+CharName VARCHAR(50), 
+CreepName VARCHAR(50), 
+FOREIGN KEY (CharName) REFERENCES PlayerCharacter(CharName), 
+FOREIGN KEY (CreepName) REFERENCES Creep(CreepName) 
+); 
+
+Insertions: 
+INSERT INTO CreepInstantiation VALUES  
+(2001, 'Knight_Arthur', 'Goblin'), 
+(2002, 'Mage_Lucius', 'Dragon'), 
+(2003, 'Paladin_Lance', 'Orc'), 
+(2004, 'Hunter_Elise', 'Troll'), 
+(2005, 'Rogue_Sharp', 'Skeleton'), 
+(2006, 'Sorcerer_Ana', 'Vampire'); 
